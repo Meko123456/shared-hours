@@ -1,0 +1,68 @@
+public final class io/github/meko123456/sharedhours/OverlapFinder {
+	public static final field INSTANCE Lio/github/meko123456/sharedhours/OverlapFinder;
+	public final fun dayLengthMinutes (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)I
+	public final fun dayStart (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)Lkotlin/time/Instant;
+	public final fun label (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/lang/String;
+	public final fun minuteOf (Lkotlin/time/Instant;Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)I
+	public final fun project (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/ZoneSchedule;)Ljava/util/List;
+	public final fun sharedWindows (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/util/List;
+	public final fun totalMinutes (Ljava/util/List;)I
+	public final fun wallTime (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;I)Lkotlinx/datetime/LocalTime;
+}
+
+public final class io/github/meko123456/sharedhours/Segment {
+	public fun <init> (II)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun copy (II)Lio/github/meko123456/sharedhours/Segment;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/Segment;IIILjava/lang/Object;)Lio/github/meko123456/sharedhours/Segment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEndMinute ()I
+	public final fun getLengthMinutes ()I
+	public final fun getStartMinute ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/meko123456/sharedhours/WorkingHours {
+	public static final field Companion Lio/github/meko123456/sharedhours/WorkingHours$Companion;
+	public static final field MINUTES_PER_DAY I
+	public fun <init> (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;)V
+	public synthetic fun <init> (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lkotlinx/datetime/LocalTime;
+	public final fun component2 ()Lkotlinx/datetime/LocalTime;
+	public final fun component3 ()Ljava/util/Set;
+	public final fun copy (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;)Lio/github/meko123456/sharedhours/WorkingHours;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/WorkingHours;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/WorkingHours;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCrossesMidnight ()Z
+	public final fun getDays ()Ljava/util/Set;
+	public final fun getDurationMinutes ()I
+	public final fun getEnd ()Lkotlinx/datetime/LocalTime;
+	public final fun getStart ()Lkotlinx/datetime/LocalTime;
+	public fun hashCode ()I
+	public final fun startsOn (Lkotlinx/datetime/LocalDate;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/meko123456/sharedhours/WorkingHours$Companion {
+	public final fun getDefault ()Lio/github/meko123456/sharedhours/WorkingHours;
+	public final fun getEVERY_DAY ()Ljava/util/Set;
+	public final fun getMONDAY_TO_FRIDAY ()Ljava/util/Set;
+	public final fun getSUNDAY_TO_THURSDAY ()Ljava/util/Set;
+}
+
+public final class io/github/meko123456/sharedhours/ZoneSchedule {
+	public fun <init> (Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/WorkingHours;)V
+	public synthetic fun <init> (Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/WorkingHours;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lkotlinx/datetime/TimeZone;
+	public final fun component2 ()Lio/github/meko123456/sharedhours/WorkingHours;
+	public final fun copy (Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/WorkingHours;)Lio/github/meko123456/sharedhours/ZoneSchedule;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/ZoneSchedule;Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/WorkingHours;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/ZoneSchedule;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHours ()Lio/github/meko123456/sharedhours/WorkingHours;
+	public final fun getZone ()Lkotlinx/datetime/TimeZone;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
