@@ -177,6 +177,39 @@ public object OverlapFinder {
     }
 
     /**
+     * The first place a meeting of [lengthMinutes] fits, searching from [from] forward.
+     *
+     * One day at a time is rarely the real question. "When can these four next meet for an hour"
+     * may be answered by this afternoon, or by a week on Tuesday because a bank holiday and a
+     * Friday–Saturday weekend are in the way. [from] is included in the search.
+     *
+     * [withinDays] bounds it, and is a parameter rather than a constant because two weeks is right
+     * for arranging a call and wrong for planning a quarter. A set of zones that can never overlap
+     * would otherwise search forever, so there is no unbounded form of this.
+     *
+     * Returns `null` when nothing fits inside the horizon — which is a real answer, and one worth
+     * showing as "no slot in the next two weeks" rather than an empty list.
+     */
+    public fun nextSlot(
+        from: LocalDate,
+        home: TimeZone,
+        schedules: List<ZoneSchedule>,
+        lengthMinutes: Int,
+        stepMinutes: Int = lengthMinutes,
+        withinDays: Int = 14,
+    ): DatedSegment? {
+        require(withinDays >= 1) { "the search must cover at least one day, was $withinDays" }
+
+        var date = from
+        repeat(withinDays) {
+            val slot = slots(date, home, schedules, lengthMinutes, stepMinutes).firstOrNull()
+            if (slot != null) return DatedSegment(date, slot)
+            date = date.plus(1, DateTimeUnit.DAY)
+        }
+        return null
+    }
+
+    /**
      * The longest single stretch when everyone is free on [date], or `null` when there is none.
      *
      * The answer to "what is the best we can do today" when a meeting will not fit anywhere.

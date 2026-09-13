@@ -89,6 +89,7 @@ window that closes at 17:00 as another opens at 17:00 is correctly **no overlap 
 | `wallTime(date, home, minute)` | A point on the axis as a clock time |
 | `minuteOf(instant, date, home)` | An instant as a point on the axis |
 | `slots(…, lengthMinutes)` | Every place a meeting of that length fits |
+| `nextSlot(from, …)` | The first slot from a date forward, searching days |
 | `longestWindow(…)` | The longest single stretch, when nothing fits |
 | `totalMinutes` / `label` | How much, and how to print it |
 
@@ -109,6 +110,19 @@ OverlapFinder.longestWindow(date, home, schedules)                          // t
 A slot never straddles two windows — the gap between them is there because somebody is away from
 their desk. Starts align to multiples of the step, so the default lands them on the hour and the half
 hour.
+
+One day at a time is rarely the real question either. The answer to "when can these four *next* meet
+for an hour" may be this afternoon, or a week on Tuesday because a bank holiday and a Friday–Saturday
+weekend are in the way:
+
+```kotlin
+OverlapFinder.nextSlot(from = today, home, schedules, lengthMinutes = 60)
+// DatedSegment(date=2026-08-31, segment=12:00–13:00)
+```
+
+The search is bounded — `withinDays` defaults to 14 — because a set of zones that can never overlap
+would otherwise be searched forever. `null` means "nothing in the next two weeks", which is a real
+answer worth showing.
 
 ## A worked example
 
