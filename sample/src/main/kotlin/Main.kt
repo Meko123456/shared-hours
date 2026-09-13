@@ -1,6 +1,7 @@
 package io.github.meko123456.sharedhours.sample
 
 import io.github.meko123456.sharedhours.OverlapFinder
+import io.github.meko123456.sharedhours.WorkCalendar
 import io.github.meko123456.sharedhours.WorkingHours
 import io.github.meko123456.sharedhours.ZoneSchedule
 import kotlinx.datetime.DateTimeUnit
@@ -69,6 +70,38 @@ public fun main() {
         println("  %-12s %s".format(date.dayOfWeek.name.lowercase(), label))
         date = date.plus(1, DateTimeUnit.DAY)
     }
+
+    println("\nWhy is the window only an hour?\n")
+    OverlapFinder.constraints(LocalDate(2026, 9, 14), tbilisi, team.map { it.second }).forEach { constraint ->
+        val who = { list: List<ZoneSchedule> ->
+            if (list.isEmpty()) "the day itself"
+            else list.joinToString(" and ") { s -> team.first { it.second.zone == s.zone }.first.substringBefore(',') }
+        }
+        println("  ${OverlapFinder.label(LocalDate(2026, 9, 14), tbilisi, listOf(constraint.window))}")
+        println("    opens when ${who(constraint.opensWith)} arrives")
+        println("    closes when ${who(constraint.closesWith)} leaves")
+    }
+
+    println("\nWhere does a half-hour call fit on the Monday?\n")
+    val monday = LocalDate(2026, 9, 14)
+    OverlapFinder.slots(monday, tbilisi, team.map { it.second }, lengthMinutes = 30).forEach { slot ->
+        println("  ${OverlapFinder.label(monday, tbilisi, listOf(slot))}")
+    }
+
+    // Everyone is available on the Monday — until London takes the week off.
+    println("\nLondon is on leave all week. When can the four next meet for an hour?\n")
+    val onLeave = team.map { (who, schedule) ->
+        if (schedule.zone.id == "Europe/London") {
+            schedule.copy(calendar = WorkCalendar.excluding((14..18).map { LocalDate(2026, 9, it) }.toSet()))
+        } else {
+            schedule
+        }
+    }
+    val next = OverlapFinder.nextSlot(monday, tbilisi, onLeave, lengthMinutes = 60)
+    println(
+        if (next == null) "  nowhere in the next fortnight"
+        else "  ${next.date} (${next.date.dayOfWeek.name.lowercase()})  ${OverlapFinder.label(next.date, tbilisi, listOf(next.segment))}",
+    )
 
     // Georgia has no daylight saving, so a Tbilisi day is always 1440 minutes. Seen from London it
     // is a different story: on 25 October the clocks go back and the day is 25 hours long. Nothing

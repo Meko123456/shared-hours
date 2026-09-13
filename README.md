@@ -163,11 +163,19 @@ and `boundedByTheDay` names it.
 When is everyone at work at once?
 
   monday       16:00–17:00      60m
-  tuesday      16:00–17:00      60m
-  wednesday    16:00–17:00      60m
-  thursday     16:00–17:00      60m
+  ...
   friday       — nobody
   saturday     — nobody
+
+Why is the window only an hour?
+
+  16:00–17:00
+    opens when Dana arrives
+    closes when Aisha leaves
+
+London is on leave all week. When can the four next meet for an hour?
+
+  2026-09-21 (monday)  16:00–17:00
 
 The same team seen from London, across the weekend the clocks go back:
 
@@ -175,7 +183,9 @@ The same team seen from London, across the weekend the clocks go back:
   monday       09:00–13:00      the day is 1440 minutes long
 ```
 
-Four zones leaves exactly one shared hour; Friday is empty because Dubai's week ends on Thursday.
+Four zones leaves exactly one shared hour, and it survives only because Dana starts at eight. Friday
+is empty because Dubai's week ends on Thursday, and a week of leave in London pushes the next
+possible meeting out by seven days.
 
 ## Where it came from
 
