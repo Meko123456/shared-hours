@@ -98,9 +98,10 @@ public object OverlapFinder {
 
         for (offset in -1..1) {
             val localDate = anchor.plus(offset, DateTimeUnit.DAY)
-            // Checked against the local date in *their* zone, which can be a different calendar day
+            // Both checks use the local date in *their* zone, which can be a different calendar day
             // from the home one — the whole point of asking.
             if (!schedule.hours.startsOn(localDate)) continue
+            if (!schedule.calendar.worksOn(localDate)) continue
 
             val shiftStart = LocalDateTime(localDate, schedule.hours.start).toInstant(schedule.zone)
             val endDate = if (schedule.hours.crossesMidnight) {

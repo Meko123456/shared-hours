@@ -57,6 +57,19 @@ ZoneSchedule(
 )
 ```
 
+**And neither is the calendar.** Holidays and leave sit outside the weekly rhythm, and they are
+exactly where a confident wrong answer wastes a morning:
+
+```kotlin
+ZoneSchedule(london, calendar = WorkCalendar.excluding(bankHolidays))
+ZoneSchedule(tbilisi, calendar = { it !in danasLeave })     // or any rule at all
+```
+
+A predicate rather than a list of dates, deliberately: holiday calendars are national, they move
+(Easter, Eid, substitute days when a holiday falls at a weekend), and keeping them correct for every
+country is a maintenance job with no end. Back it with whatever source you already trust. Like the
+weekday check, it is evaluated against the local date **in that person's own zone**.
+
 ## Install
 
 ```kotlin
