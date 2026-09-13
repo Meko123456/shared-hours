@@ -87,14 +87,31 @@ public object OverlapFinder {
      * not work that day at all.
      */
     public fun project(date: LocalDate, home: TimeZone, schedule: ZoneSchedule): List<Segment> {
+        val dayLength = dayLengthMinutes(date, home)
+        val clipped = shifts(date, home, schedule).mapNotNull { (from, to) ->
+            val start = max(from, 0)
+            val end = min(to, dayLength)
+            if (end > start) Segment(start, end) else null
+        }
+        return merge(clipped)
+    }
+
+    /**
+     * The schedule's shifts on the axis of the home day, **unclipped** — so a shift running from
+     * before midnight reads as a negative start rather than as one beginning at zero.
+     *
+     * That distinction is the whole reason this is separate from [project]. Once a shift is clipped
+     * to the day, an edge created by the clipping is indistinguishable from one the person actually
+     * works to, and [constraints] would blame somebody for a boundary that is really just the end of
+     * the date being asked about.
+     */
+    private fun shifts(date: LocalDate, home: TimeZone, schedule: ZoneSchedule): List<Pair<Int, Int>> {
         val dayStart = dayStart(date, home)
-        val dayEnd = dayStart(date.plus(1, DateTimeUnit.DAY), home)
-        val dayLength = minutesBetween(dayStart, dayEnd)
 
         // Only three local dates in the other zone can touch this home day, whatever the offset:
         // the one the home day starts on, and its neighbours either side.
         val anchor = dayStart.toLocalDateTime(schedule.zone).date
-        val found = ArrayList<Segment>(2)
+        val found = ArrayList<Pair<Int, Int>>(3)
 
         for (offset in -1..1) {
             val localDate = anchor.plus(offset, DateTimeUnit.DAY)
@@ -110,12 +127,9 @@ public object OverlapFinder {
                 localDate
             }
             val shiftEnd = LocalDateTime(endDate, schedule.hours.end).toInstant(schedule.zone)
-
-            val from = max(minutesBetween(dayStart, shiftStart), 0)
-            val to = min(minutesBetween(dayStart, shiftEnd), dayLength)
-            if (to > from) found += Segment(from, to)
+            found += minutesBetween(dayStart, shiftStart) to minutesBetween(dayStart, shiftEnd)
         }
-        return merge(found)
+        return found
     }
 
     /**
@@ -220,6 +234,36 @@ public object OverlapFinder {
         home: TimeZone,
         schedules: List<ZoneSchedule>,
     ): Segment? = sharedWindows(date, home, schedules).maxByOrNull { it.lengthMinutes }
+
+    /**
+     * Each shared window on [date], with the schedules whose hours define its edges.
+     *
+     * "One hour" is not an actionable answer; "one hour, because London arrives at 12:00 your time
+     * and Dubai leaves at 17:00" is. This attributes each edge to whoever is responsible for it.
+     *
+     * An edge can also belong to nobody: a window that runs to midnight is bounded by the day being
+     * asked about rather than by a person, and no amount of moving hours will widen it. That case is
+     * an empty list, and [WindowConstraint.boundedByTheDay] names it.
+     */
+    public fun constraints(
+        date: LocalDate,
+        home: TimeZone,
+        schedules: List<ZoneSchedule>,
+    ): List<WindowConstraint> {
+        // Unclipped, so an edge produced by the day boundary is not mistaken for somebody's hours.
+        val raw = schedules.map { schedule -> schedule to shifts(date, home, schedule) }
+        return sharedWindows(date, home, schedules).map { window ->
+            WindowConstraint(
+                window = window,
+                opensWith = raw
+                    .filter { (_, spans) -> spans.any { (from, _) -> from == window.startMinute } }
+                    .map { (schedule, _) -> schedule },
+                closesWith = raw
+                    .filter { (_, spans) -> spans.any { (_, to) -> to == window.endMinute } }
+                    .map { (schedule, _) -> schedule },
+            )
+        }
+    }
 
     /** Total length of [segments] in minutes. */
     public fun totalMinutes(segments: List<Segment>): Int = segments.sumOf { it.lengthMinutes }

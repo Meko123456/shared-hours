@@ -104,6 +104,7 @@ window that closes at 17:00 as another opens at 17:00 is correctly **no overlap 
 | `slots(…, lengthMinutes)` | Every place a meeting of that length fits |
 | `nextSlot(from, …)` | The first slot from a date forward, searching days |
 | `longestWindow(…)` | The longest single stretch, when nothing fits |
+| `constraints(…)` | Whose hours are holding each window in |
 | `totalMinutes` / `label` | How much, and how to print it |
 
 Nothing reads a clock. Every function takes the date it works on, which is what makes all of the
@@ -136,6 +137,19 @@ OverlapFinder.nextSlot(from = today, home, schedules, lengthMinutes = 60)
 The search is bounded — `withinDays` defaults to 14 — because a set of zones that can never overlap
 would otherwise be searched forever. `null` means "nothing in the next two weeks", which is a real
 answer worth showing.
+
+## Who is the constraint?
+
+"You have one hour" is not actionable. "One hour, because London arrives at 12:00 your time and
+Dubai leaves at 17:00" is — a team can move one of those.
+
+```kotlin
+val (window, opensWith, closesWith) = OverlapFinder.constraints(date, home, schedules).first()
+```
+
+An edge can also belong to nobody: a window running to midnight is bounded by the day you asked
+about rather than by a person, and no amount of moving hours will widen it. That is an empty list,
+and `boundedByTheDay` names it.
 
 ## A worked example
 

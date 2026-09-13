@@ -13,6 +13,7 @@ public final class io/github/meko123456/sharedhours/DatedSegment {
 
 public final class io/github/meko123456/sharedhours/OverlapFinder {
 	public static final field INSTANCE Lio/github/meko123456/sharedhours/OverlapFinder;
+	public final fun constraints (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/util/List;
 	public final fun dayLengthMinutes (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)I
 	public final fun dayStart (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)Lkotlin/time/Instant;
 	public final fun label (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/lang/String;
@@ -38,6 +39,22 @@ public final class io/github/meko123456/sharedhours/Segment {
 	public final fun getEndMinute ()I
 	public final fun getLengthMinutes ()I
 	public final fun getStartMinute ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/meko123456/sharedhours/WindowConstraint {
+	public fun <init> (Lio/github/meko123456/sharedhours/Segment;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Lio/github/meko123456/sharedhours/Segment;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Lio/github/meko123456/sharedhours/Segment;Ljava/util/List;Ljava/util/List;)Lio/github/meko123456/sharedhours/WindowConstraint;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/WindowConstraint;Lio/github/meko123456/sharedhours/Segment;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/WindowConstraint;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBoundedByTheDay ()Z
+	public final fun getClosesWith ()Ljava/util/List;
+	public final fun getOpensWith ()Ljava/util/List;
+	public final fun getWindow ()Lio/github/meko123456/sharedhours/Segment;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
