@@ -88,10 +88,27 @@ window that closes at 17:00 as another opens at 17:00 is correctly **no overlap 
 | `dayStart` / `dayLengthMinutes` | The day's bounds, DST included |
 | `wallTime(date, home, minute)` | A point on the axis as a clock time |
 | `minuteOf(instant, date, home)` | An instant as a point on the axis |
+| `slots(…, lengthMinutes)` | Every place a meeting of that length fits |
+| `longestWindow(…)` | The longest single stretch, when nothing fits |
 | `totalMinutes` / `label` | How much, and how to print it |
 
 Nothing reads a clock. Every function takes the date it works on, which is what makes all of the
 above testable without mocking time.
+
+## Where does a meeting fit?
+
+"When is everyone free" is not the question people ask. A twenty-minute window is no use for a
+half-hour call, and a four-hour window has eight plausible starts in it.
+
+```kotlin
+OverlapFinder.slots(date, home, schedules, lengthMinutes = 30)             // every half-hour slot
+OverlapFinder.slots(date, home, schedules, lengthMinutes = 60, stepMinutes = 15)  // overlapping
+OverlapFinder.longestWindow(date, home, schedules)                          // the best you can do
+```
+
+A slot never straddles two windows — the gap between them is there because somebody is away from
+their desk. Starts align to multiples of the step, so the default lands them on the hour and the half
+hour.
 
 ## A worked example
 

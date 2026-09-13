@@ -138,6 +138,55 @@ public object OverlapFinder {
         return shared
     }
 
+    /**
+     * Every place a meeting of [lengthMinutes] fits, given everyone's shared time on [date].
+     *
+     * [sharedWindows] answers "when is everyone free", which is not the question people actually
+     * ask. A twenty-minute window is no use for a half-hour call, and a four-hour window has eight
+     * plausible starts in it — this returns those starts, as segments of exactly [lengthMinutes].
+     *
+     * A slot never straddles two windows: the gap between them is there because somebody is not at
+     * their desk.
+     *
+     * Starts are aligned to multiples of [stepMinutes] on the day axis, so with the default step of
+     * 30 they land on the hour and the half hour. On a day the clocks change, the axis and the wall
+     * clock drift apart after the transition — the alignment follows elapsed time, which is what the
+     * meeting actually occupies. [stepMinutes] defaults to [lengthMinutes], giving back-to-back
+     * slots; pass something smaller for overlapping ones.
+     */
+    public fun slots(
+        date: LocalDate,
+        home: TimeZone,
+        schedules: List<ZoneSchedule>,
+        lengthMinutes: Int,
+        stepMinutes: Int = lengthMinutes,
+    ): List<Segment> {
+        require(lengthMinutes >= 1) { "a slot must be at least a minute, was $lengthMinutes" }
+        require(stepMinutes >= 1) { "the step must be at least a minute, was $stepMinutes" }
+
+        val out = ArrayList<Segment>()
+        for (window in sharedWindows(date, home, schedules)) {
+            // First aligned minute at or after the window opens.
+            var start = ((window.startMinute + stepMinutes - 1) / stepMinutes) * stepMinutes
+            while (start + lengthMinutes <= window.endMinute) {
+                out += Segment(start, start + lengthMinutes)
+                start += stepMinutes
+            }
+        }
+        return out
+    }
+
+    /**
+     * The longest single stretch when everyone is free on [date], or `null` when there is none.
+     *
+     * The answer to "what is the best we can do today" when a meeting will not fit anywhere.
+     */
+    public fun longestWindow(
+        date: LocalDate,
+        home: TimeZone,
+        schedules: List<ZoneSchedule>,
+    ): Segment? = sharedWindows(date, home, schedules).maxByOrNull { it.lengthMinutes }
+
     /** Total length of [segments] in minutes. */
     public fun totalMinutes(segments: List<Segment>): Int = segments.sumOf { it.lengthMinutes }
 

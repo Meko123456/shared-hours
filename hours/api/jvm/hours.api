@@ -3,9 +3,12 @@ public final class io/github/meko123456/sharedhours/OverlapFinder {
 	public final fun dayLengthMinutes (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)I
 	public final fun dayStart (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)Lkotlin/time/Instant;
 	public final fun label (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/lang/String;
+	public final fun longestWindow (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Lio/github/meko123456/sharedhours/Segment;
 	public final fun minuteOf (Lkotlin/time/Instant;Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;)I
 	public final fun project (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Lio/github/meko123456/sharedhours/ZoneSchedule;)Ljava/util/List;
 	public final fun sharedWindows (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;)Ljava/util/List;
+	public final fun slots (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;II)Ljava/util/List;
+	public static synthetic fun slots$default (Lio/github/meko123456/sharedhours/OverlapFinder;Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;Ljava/util/List;IIILjava/lang/Object;)Ljava/util/List;
 	public final fun totalMinutes (Ljava/util/List;)I
 	public final fun wallTime (Lkotlinx/datetime/LocalDate;Lkotlinx/datetime/TimeZone;I)Lkotlinx/datetime/LocalTime;
 }
