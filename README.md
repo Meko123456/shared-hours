@@ -228,6 +228,21 @@ Saturday — because the library, unlike the app it came from, now knows the dif
 ./gradlew :sample:run                     # the worked example
 ```
 
+### Tests and the timezone database
+
+The suite asserts real offsets for real zones on real dates. That is deliberate — a test that mocked
+the offsets would only be testing its own mock — and it means the answers come from whichever tz
+database the JVM, the Apple runtime or Node happens to ship. Zones do change their rules: Mexico
+abandoned daylight saving in 2022, several Gulf states moved their weekend the same year.
+
+Rather than pin a database, which would mean carrying one for each of four platforms, the suite
+carries a tripwire. `TimeZoneAssumptionsTest` asserts the raw offsets and day lengths every other
+test is built on, so a tzdb update trips that one first, with a message saying what changed, instead
+of turning a dozen behavioural tests red for no visible reason.
+
+When adding tests, prefer dates whose rules are settled. One date is a known exception and is
+documented where it is used.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
