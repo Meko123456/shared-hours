@@ -107,8 +107,10 @@ dependencies {
 > `includeBuild("../shared-hours")` to your `settings.gradle.kts`, or run
 > `./gradlew publishToMavenLocal` and add `mavenLocal()` to your repositories.
 
-Targets: **JVM**, **Android** (minSdk 21), **iosArm64**, **iosSimulatorArm64**. The suite runs on the
-JVM and on an iOS simulator in CI, which is where the platform time-zone databases differ.
+Targets: **JVM**, **Android** (minSdk 21), **iosArm64**, **iosSimulatorArm64**, **JS** and
+**WasmJS**. All 74 tests run on four of those in CI — the JVM, an iOS simulator, Node and Wasm on
+Node — which is where the platform time-zone databases differ, and differ most on the web targets,
+which have none of their own and read one from `@js-joda/timezone`.
 
 One dependency, and an unavoidable one: `kotlinx-datetime`, because this is time-zone arithmetic and
 that needs a tz database. Everything above it is integer maths.
@@ -225,6 +227,8 @@ Saturday — because the library, unlike the app it came from, now knows the dif
 ./gradlew apiCheck                        # the public ABI still matches api/
 ./gradlew :hours:jvmTest                  # the suite on the JVM
 ./gradlew :hours:iosSimulatorArm64Test    # the same suite on an iOS simulator
+./gradlew :hours:jsNodeTest                # the same suite on Node
+./gradlew :hours:wasmJsNodeTest            # the same suite on Wasm
 ./gradlew :sample:run                     # the worked example
 ```
 

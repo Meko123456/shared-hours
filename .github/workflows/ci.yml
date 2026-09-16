@@ -28,12 +28,18 @@ jobs:
       - name: Check the public API has not changed by accident
         run: ./gradlew apiCheck --stacktrace
 
-      # Every declared target is covered: jvm and iosSimulatorArm64 run the suite, iosArm64 cannot
-      # run on a runner so it is compiled, and assemble builds the Android artifact.
+      # Every declared target is covered, and four of the six *run* the suite rather than merely
+      # compiling it. That matters most for JS and Wasm: neither runtime ships a time-zone database,
+      # so the data comes from an npm package, and a bundle that fails to import it compiles
+      # perfectly and then throws on every single zone lookup.
+      #
+      # iosArm64 cannot run on a runner, so it is compiled; assemble builds the Android artifact.
       - name: Test and build every target
         run: |
           ./gradlew :hours:jvmTest \
                     :hours:iosSimulatorArm64Test \
+                    :hours:jsNodeTest \
+                    :hours:wasmJsNodeTest \
                     :hours:compileKotlinIosArm64 \
                     :hours:assemble --stacktrace
 

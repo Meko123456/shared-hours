@@ -22,6 +22,23 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    // A browser scheduling tool is the obvious consumer for this, so the web targets earn their
+    // keep. They cost more here than they did in srs-kotlin: nothing in JavaScript ships a time-zone
+    // database, so kotlinx-datetime gets one from the @js-joda/timezone npm package, and that drags
+    // in the npm and Yarn toolchain.
+    //
+    // nodejs() only, no browser(): these declarations choose where this library's *own tests* run,
+    // not where consumers can use it — the published artifacts work in a browser either way. Browser
+    // test tasks add a webpack bundle and a headless Chrome to run a suite that touches no DOM.
+    js(IR) {
+        nodejs()
+    }
+
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+    }
+
     sourceSets {
         commonMain.dependencies {
             // The one dependency, and an unavoidable one: this is time-zone arithmetic, and that
@@ -30,6 +47,15 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+        }
+        // The tz database itself. Loading it is the part most likely to be broken on these targets,
+        // which is exactly why the full suite runs on Node rather than the targets being published
+        // compiled-only — every test in it asks a real zone for a real offset.
+        jsMain.dependencies {
+            implementation(npm("@js-joda/timezone", "2.3.0"))
+        }
+        wasmJsMain.dependencies {
+            implementation(npm("@js-joda/timezone", "2.3.0"))
         }
     }
 }
