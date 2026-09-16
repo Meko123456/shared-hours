@@ -111,7 +111,7 @@ public object OverlapFinder {
         // Only three local dates in the other zone can touch this home day, whatever the offset:
         // the one the home day starts on, and its neighbours either side.
         val anchor = dayStart.toLocalDateTime(schedule.zone).date
-        val found = ArrayList<Pair<Int, Int>>(3)
+        val found = ArrayList<Pair<Int, Int>>(3 * schedule.hours.shifts.size)
 
         for (offset in -1..1) {
             val localDate = anchor.plus(offset, DateTimeUnit.DAY)
@@ -120,14 +120,20 @@ public object OverlapFinder {
             if (!schedule.hours.startsOn(localDate)) continue
             if (!schedule.calendar.worksOn(localDate)) continue
 
-            val shiftStart = LocalDateTime(localDate, schedule.hours.start).toInstant(schedule.zone)
-            val endDate = if (schedule.hours.crossesMidnight) {
-                localDate.plus(1, DateTimeUnit.DAY)
-            } else {
-                localDate
+            // Every shift of that day, not just the first and last. A day with a lunch break is two
+            // spans with a hole between them, and the hole is the whole point: treating it as one
+            // span from the morning start to the evening end would offer people meetings during
+            // lunch, which is precisely the answer this library exists to stop giving.
+            for (shift in schedule.hours.shifts) {
+                val shiftStart = LocalDateTime(localDate, shift.start).toInstant(schedule.zone)
+                val endDate = if (shift.crossesMidnight) {
+                    localDate.plus(1, DateTimeUnit.DAY)
+                } else {
+                    localDate
+                }
+                val shiftEnd = LocalDateTime(endDate, shift.end).toInstant(schedule.zone)
+                found += minutesBetween(dayStart, shiftStart) to minutesBetween(dayStart, shiftEnd)
             }
-            val shiftEnd = LocalDateTime(endDate, schedule.hours.end).toInstant(schedule.zone)
-            found += minutesBetween(dayStart, shiftStart) to minutesBetween(dayStart, shiftEnd)
         }
         return found
     }

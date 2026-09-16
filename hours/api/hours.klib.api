@@ -51,6 +51,26 @@ final class io.github.meko123456.sharedhours/Segment { // io.github.meko123456.s
     final fun toString(): kotlin/String // io.github.meko123456.sharedhours/Segment.toString|toString(){}[0]
 }
 
+final class io.github.meko123456.sharedhours/Shift { // io.github.meko123456.sharedhours/Shift|null[0]
+    constructor <init>(kotlinx.datetime/LocalTime, kotlinx.datetime/LocalTime) // io.github.meko123456.sharedhours/Shift.<init>|<init>(kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime){}[0]
+
+    final val crossesMidnight // io.github.meko123456.sharedhours/Shift.crossesMidnight|{}crossesMidnight[0]
+        final fun <get-crossesMidnight>(): kotlin/Boolean // io.github.meko123456.sharedhours/Shift.crossesMidnight.<get-crossesMidnight>|<get-crossesMidnight>(){}[0]
+    final val durationMinutes // io.github.meko123456.sharedhours/Shift.durationMinutes|{}durationMinutes[0]
+        final fun <get-durationMinutes>(): kotlin/Int // io.github.meko123456.sharedhours/Shift.durationMinutes.<get-durationMinutes>|<get-durationMinutes>(){}[0]
+    final val end // io.github.meko123456.sharedhours/Shift.end|{}end[0]
+        final fun <get-end>(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/Shift.end.<get-end>|<get-end>(){}[0]
+    final val start // io.github.meko123456.sharedhours/Shift.start|{}start[0]
+        final fun <get-start>(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/Shift.start.<get-start>|<get-start>(){}[0]
+
+    final fun component1(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/Shift.component1|component1(){}[0]
+    final fun component2(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/Shift.component2|component2(){}[0]
+    final fun copy(kotlinx.datetime/LocalTime = ..., kotlinx.datetime/LocalTime = ...): io.github.meko123456.sharedhours/Shift // io.github.meko123456.sharedhours/Shift.copy|copy(kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.meko123456.sharedhours/Shift.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.meko123456.sharedhours/Shift.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.meko123456.sharedhours/Shift.toString|toString(){}[0]
+}
+
 final class io.github.meko123456.sharedhours/WindowConstraint { // io.github.meko123456.sharedhours/WindowConstraint|null[0]
     constructor <init>(io.github.meko123456.sharedhours/Segment, kotlin.collections/List<io.github.meko123456.sharedhours/ZoneSchedule>, kotlin.collections/List<io.github.meko123456.sharedhours/ZoneSchedule>) // io.github.meko123456.sharedhours/WindowConstraint.<init>|<init>(io.github.meko123456.sharedhours.Segment;kotlin.collections.List<io.github.meko123456.sharedhours.ZoneSchedule>;kotlin.collections.List<io.github.meko123456.sharedhours.ZoneSchedule>){}[0]
 
@@ -73,6 +93,7 @@ final class io.github.meko123456.sharedhours/WindowConstraint { // io.github.mek
 }
 
 final class io.github.meko123456.sharedhours/WorkingHours { // io.github.meko123456.sharedhours/WorkingHours|null[0]
+    constructor <init>(kotlin.collections/List<io.github.meko123456.sharedhours/Shift>, kotlin.collections/Set<kotlinx.datetime/DayOfWeek> = ...) // io.github.meko123456.sharedhours/WorkingHours.<init>|<init>(kotlin.collections.List<io.github.meko123456.sharedhours.Shift>;kotlin.collections.Set<kotlinx.datetime.DayOfWeek>){}[0]
     constructor <init>(kotlinx.datetime/LocalTime, kotlinx.datetime/LocalTime, kotlin.collections/Set<kotlinx.datetime/DayOfWeek> = ...) // io.github.meko123456.sharedhours/WorkingHours.<init>|<init>(kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime;kotlin.collections.Set<kotlinx.datetime.DayOfWeek>){}[0]
 
     final val crossesMidnight // io.github.meko123456.sharedhours/WorkingHours.crossesMidnight|{}crossesMidnight[0]
@@ -83,13 +104,14 @@ final class io.github.meko123456.sharedhours/WorkingHours { // io.github.meko123
         final fun <get-durationMinutes>(): kotlin/Int // io.github.meko123456.sharedhours/WorkingHours.durationMinutes.<get-durationMinutes>|<get-durationMinutes>(){}[0]
     final val end // io.github.meko123456.sharedhours/WorkingHours.end|{}end[0]
         final fun <get-end>(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/WorkingHours.end.<get-end>|<get-end>(){}[0]
+    final val shifts // io.github.meko123456.sharedhours/WorkingHours.shifts|{}shifts[0]
+        final fun <get-shifts>(): kotlin.collections/List<io.github.meko123456.sharedhours/Shift> // io.github.meko123456.sharedhours/WorkingHours.shifts.<get-shifts>|<get-shifts>(){}[0]
     final val start // io.github.meko123456.sharedhours/WorkingHours.start|{}start[0]
         final fun <get-start>(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/WorkingHours.start.<get-start>|<get-start>(){}[0]
 
-    final fun component1(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/WorkingHours.component1|component1(){}[0]
-    final fun component2(): kotlinx.datetime/LocalTime // io.github.meko123456.sharedhours/WorkingHours.component2|component2(){}[0]
-    final fun component3(): kotlin.collections/Set<kotlinx.datetime/DayOfWeek> // io.github.meko123456.sharedhours/WorkingHours.component3|component3(){}[0]
-    final fun copy(kotlinx.datetime/LocalTime = ..., kotlinx.datetime/LocalTime = ..., kotlin.collections/Set<kotlinx.datetime/DayOfWeek> = ...): io.github.meko123456.sharedhours/WorkingHours // io.github.meko123456.sharedhours/WorkingHours.copy|copy(kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime;kotlin.collections.Set<kotlinx.datetime.DayOfWeek>){}[0]
+    final fun component1(): kotlin.collections/List<io.github.meko123456.sharedhours/Shift> // io.github.meko123456.sharedhours/WorkingHours.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/Set<kotlinx.datetime/DayOfWeek> // io.github.meko123456.sharedhours/WorkingHours.component2|component2(){}[0]
+    final fun copy(kotlin.collections/List<io.github.meko123456.sharedhours/Shift> = ..., kotlin.collections/Set<kotlinx.datetime/DayOfWeek> = ...): io.github.meko123456.sharedhours/WorkingHours // io.github.meko123456.sharedhours/WorkingHours.copy|copy(kotlin.collections.List<io.github.meko123456.sharedhours.Shift>;kotlin.collections.Set<kotlinx.datetime.DayOfWeek>){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.meko123456.sharedhours/WorkingHours.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.meko123456.sharedhours/WorkingHours.hashCode|hashCode(){}[0]
     final fun startsOn(kotlinx.datetime/LocalDate): kotlin/Boolean // io.github.meko123456.sharedhours/WorkingHours.startsOn|startsOn(kotlinx.datetime.LocalDate){}[0]
@@ -107,6 +129,8 @@ final class io.github.meko123456.sharedhours/WorkingHours { // io.github.meko123
             final fun <get-MONDAY_TO_FRIDAY>(): kotlin.collections/Set<kotlinx.datetime/DayOfWeek> // io.github.meko123456.sharedhours/WorkingHours.Companion.MONDAY_TO_FRIDAY.<get-MONDAY_TO_FRIDAY>|<get-MONDAY_TO_FRIDAY>(){}[0]
         final val SUNDAY_TO_THURSDAY // io.github.meko123456.sharedhours/WorkingHours.Companion.SUNDAY_TO_THURSDAY|{}SUNDAY_TO_THURSDAY[0]
             final fun <get-SUNDAY_TO_THURSDAY>(): kotlin.collections/Set<kotlinx.datetime/DayOfWeek> // io.github.meko123456.sharedhours/WorkingHours.Companion.SUNDAY_TO_THURSDAY.<get-SUNDAY_TO_THURSDAY>|<get-SUNDAY_TO_THURSDAY>(){}[0]
+
+        final fun withBreak(kotlinx.datetime/LocalTime, kotlinx.datetime/LocalTime, kotlinx.datetime/LocalTime, kotlinx.datetime/LocalTime, kotlin.collections/Set<kotlinx.datetime/DayOfWeek> = ...): io.github.meko123456.sharedhours/WorkingHours // io.github.meko123456.sharedhours/WorkingHours.Companion.withBreak|withBreak(kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime;kotlinx.datetime.LocalTime;kotlin.collections.Set<kotlinx.datetime.DayOfWeek>){}[0]
     }
 }
 

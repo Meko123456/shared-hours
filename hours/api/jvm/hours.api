@@ -43,6 +43,21 @@ public final class io/github/meko123456/sharedhours/Segment {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/meko123456/sharedhours/Shift {
+	public fun <init> (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;)V
+	public final fun component1 ()Lkotlinx/datetime/LocalTime;
+	public final fun component2 ()Lkotlinx/datetime/LocalTime;
+	public final fun copy (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;)Lio/github/meko123456/sharedhours/Shift;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/Shift;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/Shift;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCrossesMidnight ()Z
+	public final fun getDurationMinutes ()I
+	public final fun getEnd ()Lkotlinx/datetime/LocalTime;
+	public final fun getStart ()Lkotlinx/datetime/LocalTime;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/meko123456/sharedhours/WindowConstraint {
 	public fun <init> (Lio/github/meko123456/sharedhours/Segment;Ljava/util/List;Ljava/util/List;)V
 	public final fun component1 ()Lio/github/meko123456/sharedhours/Segment;
@@ -72,18 +87,20 @@ public final class io/github/meko123456/sharedhours/WorkCalendar$Companion {
 public final class io/github/meko123456/sharedhours/WorkingHours {
 	public static final field Companion Lio/github/meko123456/sharedhours/WorkingHours$Companion;
 	public static final field MINUTES_PER_DAY I
+	public fun <init> (Ljava/util/List;Ljava/util/Set;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;)V
 	public synthetic fun <init> (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lkotlinx/datetime/LocalTime;
-	public final fun component2 ()Lkotlinx/datetime/LocalTime;
-	public final fun component3 ()Ljava/util/Set;
-	public final fun copy (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;)Lio/github/meko123456/sharedhours/WorkingHours;
-	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/WorkingHours;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/WorkingHours;
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun copy (Ljava/util/List;Ljava/util/Set;)Lio/github/meko123456/sharedhours/WorkingHours;
+	public static synthetic fun copy$default (Lio/github/meko123456/sharedhours/WorkingHours;Ljava/util/List;Ljava/util/Set;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/WorkingHours;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCrossesMidnight ()Z
 	public final fun getDays ()Ljava/util/Set;
 	public final fun getDurationMinutes ()I
 	public final fun getEnd ()Lkotlinx/datetime/LocalTime;
+	public final fun getShifts ()Ljava/util/List;
 	public final fun getStart ()Lkotlinx/datetime/LocalTime;
 	public fun hashCode ()I
 	public final fun startsOn (Lkotlinx/datetime/LocalDate;)Z
@@ -95,6 +112,8 @@ public final class io/github/meko123456/sharedhours/WorkingHours$Companion {
 	public final fun getEVERY_DAY ()Ljava/util/Set;
 	public final fun getMONDAY_TO_FRIDAY ()Ljava/util/Set;
 	public final fun getSUNDAY_TO_THURSDAY ()Ljava/util/Set;
+	public final fun withBreak (Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;)Lio/github/meko123456/sharedhours/WorkingHours;
+	public static synthetic fun withBreak$default (Lio/github/meko123456/sharedhours/WorkingHours$Companion;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Lkotlinx/datetime/LocalTime;Ljava/util/Set;ILjava/lang/Object;)Lio/github/meko123456/sharedhours/WorkingHours;
 }
 
 public final class io/github/meko123456/sharedhours/ZoneSchedule {
