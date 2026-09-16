@@ -65,7 +65,7 @@ class WorkCalendarTest {
     @Test
     fun `an arbitrary rule works just as well as a list`() {
         // Works on even days of the month only, expressed as a rule rather than enumerated.
-        val evenDaysOnly = ZoneSchedule(tbilisi, calendar = { it.dayOfMonth % 2 == 0 })
+        val evenDaysOnly = ZoneSchedule(tbilisi, calendar = { it.day % 2 == 0 })
         assertTrue(OverlapFinder.project(thursday, tbilisi, evenDaysOnly).isEmpty(), "the 27th is odd")
         assertTrue(OverlapFinder.project(friday, tbilisi, evenDaysOnly).isNotEmpty(), "the 28th is even")
     }
