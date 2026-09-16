@@ -57,6 +57,28 @@ ZoneSchedule(
 )
 ```
 
+**And a working day is not always one stretch.** A long lunch in Spain, a split shift on a support
+rota, a driver's morning and evening runs — all of them are one working day with a hole in the
+middle. A model that only holds a start and an end has to either pretend the person is at their desk
+through lunch or pretend they work two separate days:
+
+```kotlin
+ZoneSchedule(
+    TimeZone.of("Europe/Madrid"),
+    WorkingHours.withBreak(LocalTime(9, 0), LocalTime(14, 0), LocalTime(16, 0), LocalTime(20, 0)),
+)
+```
+
+Nine until two, back at four, finishing at eight: nine hours worked across a day that spans eleven.
+`WorkingHours` holds a list of `Shift`s, so a day can have as many gaps as it needs, and the gaps are
+real — a meeting is never offered across one. Write the unbroken case the short way and nothing
+changes: `WorkingHours(LocalTime(9, 0), LocalTime(18, 0))` is still one shift.
+
+Shifts have to be in order and must not overlap, both checked. An overlapping pair would
+double-count the hours worked, and an unordered list would make two identical working days compare
+unequal. A shift crossing midnight therefore has to be the last one, which is the natural reading
+anyway.
+
 **And neither is the calendar.** Holidays and leave sit outside the weekly rhythm, and they are
 exactly where a confident wrong answer wastes a morning:
 
