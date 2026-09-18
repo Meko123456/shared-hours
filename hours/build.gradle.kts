@@ -81,7 +81,8 @@ mavenPublishing {
         name.set("shared-hours")
         description.set(
             "When is everyone at work at the same time? Working-hours overlap across time zones " +
-                "for Kotlin Multiplatform — DST-correct, weekday-aware, exhaustively tested.",
+                "for Kotlin Multiplatform — DST-correct, weekday-aware, split shifts, " +
+                "exhaustively tested on JVM, Android, iOS, JS and Wasm.",
         )
         url.set("https://github.com/Meko123456/shared-hours")
         licenses {
